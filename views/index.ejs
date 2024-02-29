@@ -23,7 +23,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Post</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/post">Post</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,10 +42,9 @@
             <div class="row">
                 <!-- Blog entries-->
                 <div class="col-lg-8">
-                    <% for (let i = 0; i < data.length; i++) { %>
                     <!-- Featured blog post-->
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="<%= data.image_url %>" alt="..." /></a>
+                        <a href="#!"><img class="card-img-top" src="<%= data.image_url %>" alt="..."/></a>
                         <div class="card-body">
                             <div class="small text-muted"><%= data.post_date %></div>
                             <h2 class="card-title"><%= data.post_title %></h2>
@@ -53,7 +52,6 @@
                             <a class="btn btn-primary" href="#!">Read more →</a>
                         </div>
                     </div>
-                    <% } %>
                     <!-- Nested row for non-featured blog posts-->
                     <div class="row">
                         <div class="col-lg-6">

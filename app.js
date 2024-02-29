@@ -4,6 +4,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const loginRouter = require('./routes/login'); // 새로운 라우터 추가
+const postRouter = require('./routes/post');
 const router = express.Router();
 
 const app = express();
@@ -55,16 +56,17 @@ app.post('/signup', (req, res) => {
 // 루트 경로에서 데이터베이스에서 데이터를 가져와서 EJS로 렌더링
 app.get('/', (req, res) => {
   // MySQL에서 데이터 가져오기
-  connection.query('SELECT * FROM blogPosts', (err, rows) => {
+  connection.query('SELECT * FROM blogPosts', (err, results, fields) => {
     if (err) throw err;
     // 데이터를 EJS 템플릿에 전달하여 렌더링
-    res.render('index.ejs', { data: rows });
+    res.render('index.ejs', { data: results[0] });
   });
 });
 
 
 
 app.use('/login', loginRouter);
+app.use('/post', postRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
