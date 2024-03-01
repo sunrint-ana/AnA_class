@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -13,35 +14,45 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // 업로드된 파일 저장 경로
+  destination: (req, file, cb) => {
+      cb(null, 'public/uploads/');
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // 파일명 중복 방지를 위한 파일 이름 설정
-  }
+  filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, Date.now() + ext);
+  },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: {
+      fileSize: 1024 * 1024 * 5,
+  },
+});
 
-router.post('/upload', upload.single('image'), (req, res) => {
-  const { postContent } = req.body;
-  const imageUrl = req.file ? path.join('uploads', req.file.filename) : null;
+router.post('/upload', upload.single('file'), (req, res) => {
+  const filePath = req.file.path;
+  const filename = req.file.filename;
+  const data = fs.readFileSync(filePath);
+  const postContent = req.body.post_content;
+  const postDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const postTitle = req.body.post_title;
 
-  // MySQL에 데이터 저장
-  const insertQuery = 'INSERT INTO blogPosts (post_content, image_url) VALUES (?, ?)';
-  connection.query(insertQuery, [postContent, imageUrl], (error, results) => {
-    if (error) throw error;
-    res.redirect('/');
+  const sql = 'INSERT INTO blogPosts (filename, data, post_content, post_date, post_title) VALUES (?, ?, ?, ?, ?)';
+  connection.query(sql, [filename, data, postContent, postDate, postTitle], (error, results, fields) => {
+      if (error) {
+          console.error(error);
+          res.status(500).send('파일 업로드 중 오류가 발생했습니다.');
+      } else {
+          res.send('파일 업로드가 성공했습니다.');
+      }
   });
 });
 
 router.get('/', (req, res) => {
-    res.render('upload.ejs'); // login.ejs 파일을 렌더링
-  });
-
-router.get('/post', (req, res) => {
-    res.render('post.ejs');
+    res.render('upload.ejs');
   });
 
 module.exports = router;

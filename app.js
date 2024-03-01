@@ -1,16 +1,11 @@
-// app.js
-
 const express = require('express');
 const mysql = require('mysql');
-const bodyParser = require('body-parser');
-const loginRouter = require('./routes/login'); // 새로운 라우터 추가
+const loginRouter = require('./routes/login');
 const uploadRouter = require('./routes/upload');
-const router = express.Router();
 
 const app = express();
 const port = 3000;
 
-// MySQL 연결 설정
 const connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
@@ -53,13 +48,15 @@ app.post('/signup', (req, res) => {
       });
   });
 
-// 루트 경로에서 데이터베이스에서 데이터를 가져와서 EJS로 렌더링
 app.get('/', (req, res) => {
-  // MySQL에서 데이터 가져오기
-  connection.query('SELECT * FROM blogPosts', (err, results, fields) => {
-    if (err) throw err;
-    // 데이터를 EJS 템플릿에 전달하여 렌더링
-    res.render('index.ejs', { data: results[0] });
+  const sql = 'SELECT post_title, post_content, post_date, filename FROM blogPosts';
+  connection.query(sql, (error, results, fields) => {
+    if (error) {
+      console.error(error);
+      res.status(500).render('index.ejs', { error: '데이터를 불러오는 중 오류가 발생했습니다.' });
+    } else {
+      res.render('index.ejs', { posts: results[0] });
+    }
   });
 });
 

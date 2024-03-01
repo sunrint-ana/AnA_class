@@ -1,5 +1,3 @@
-// routes/login.js
-
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
@@ -12,11 +10,11 @@ const connection = mysql.createConnection({
 });
 
 router.get('/', (req, res) => {
-  res.render('login.ejs'); // login.ejs 파일을 렌더링
+  res.render('login.ejs');
 });
 
 router.get('/signup', (req, res) => {
-  res.render('signup.ejs'); // signup.ejs 파일을 렌더링
+  res.render('signup.ejs');
 });
 
 module.exports = router;
@@ -30,11 +28,9 @@ router.post('/authenticate', (req, res) => {
       res.status(500).send('Database error');
     } else {
       if (results.length > 0) {
-        // 로그인 성공
-        res.redirect('/'); // 로그인 성공 시 홈페이지로 이동
+        res.redirect('/');
       } else {
-        // 로그인 실패
-        res.redirect('/login'); // 로그인 실패 시 다시 로그인 페이지로 이동
+        res.redirect('/login');
       }
     }
   });

@@ -44,11 +44,11 @@
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="<%= data.image_url %>" alt="..."/></a>
+                        <a href="#!"><img class="card-img-top" src="/public/uploads/<%= posts.filename %>" alt="..."/></a>
                         <div class="card-body">
-                            <div class="small text-muted"><%= data.post_date %></div>
-                            <h2 class="card-title"><%= data.post_title %></h2>
-                            <p class="card-text"><%= data.post_content %></p>
+                            <div class="small text-muted"><%= posts.post_date %></div>
+                            <h2 class="card-title"><%= posts.post_title %></h2>
+                            <p class="card-text"><%= posts.post_content %></p>
                             <a class="btn btn-primary" href="#!">Read more →</a>
                         </div>
                     </div>
