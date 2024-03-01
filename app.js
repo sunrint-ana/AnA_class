@@ -4,7 +4,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const loginRouter = require('./routes/login'); // 새로운 라우터 추가
-const postRouter = require('./routes/post');
+const uploadRouter = require('./routes/upload');
 const router = express.Router();
 
 const app = express();
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/login', loginRouter);
-app.use('/post', postRouter);
+app.use('/upload', uploadRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
