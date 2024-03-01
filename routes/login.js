@@ -28,10 +28,17 @@ router.post('/authenticate', (req, res) => {
       res.status(500).send('Database error');
     } else {
       if (results.length > 0) {
+        req.session.isLoggedIn = true;
         res.redirect('/');
       } else {
         res.redirect('/login');
       }
     }
   });
+});
+
+router.get('/logout', (req, res) => {
+  // 세션에서 로그인 여부를 제거하여 로그아웃
+  req.session.isLoggedIn = false;
+  res.redirect('/');
 });

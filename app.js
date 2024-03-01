@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const mysql = require('mysql');
 const loginRouter = require('./routes/login');
 const uploadRouter = require('./routes/upload');
@@ -20,6 +21,12 @@ connection.connect((err) => {
     console.log('Connected to MySQL');
   }
 });
+
+app.use(session({
+  secret: 'your-secret-key', // 세션 암호화에 사용되는 키
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use('/public', express.static(__dirname + '/public', { 'extensions': ['html', 'css'] }));
 app.set('view engine', 'ejs');
@@ -49,13 +56,14 @@ app.post('/signup', (req, res) => {
   });
 
 app.get('/', (req, res) => {
+  const isLoggedIn = req.session.isLoggedIn || false;
   const sql = 'SELECT post_title, post_content, post_date, filename FROM blogPosts';
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error(error);
       res.status(500).render('index.ejs', { error: '데이터를 불러오는 중 오류가 발생했습니다.' });
     } else {
-      res.render('index.ejs', { posts: results[0] });
+      res.render('index.ejs', { posts: results[0], isLoggedIn });
     }
   });
 });

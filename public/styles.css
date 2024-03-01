@@ -454,6 +454,17 @@ legend + * {
   direction: ltr;
 }
 */
+
+#login{
+  position: absolute;
+  top: 8px;
+  left: 960px;
+}
+#logout{
+  position: absolute;
+  top: 8px;
+  left: 950px;
+}
 ::-webkit-search-decoration {
   -webkit-appearance: none;
 }
