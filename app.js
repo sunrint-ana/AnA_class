@@ -43,7 +43,7 @@ app.post('/signup', (req, res) => {
               res.status(500).send('Database error');
           } else {
               console.log('New Data added with ID:', results.insertId);
-              res.status(200).send('User registered successfully');
+              res.redirect('/login');
           }
       });
   });

@@ -46,7 +46,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
           console.error(error);
           res.status(500).send('파일 업로드 중 오류가 발생했습니다.');
       } else {
-          res.send('파일 업로드가 성공했습니다.');
+          res.redirect('/');
       }
   });
 });
