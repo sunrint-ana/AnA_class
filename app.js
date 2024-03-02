@@ -23,7 +23,7 @@ connection.connect((err) => {
 });
 
 app.use(session({
-  secret: 'your-secret-key', // 세션 암호화에 사용되는 키
+  secret: 'your-secret-key',
   resave: false,
   saveUninitialized: true
 }));

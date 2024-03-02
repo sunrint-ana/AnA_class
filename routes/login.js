@@ -38,7 +38,6 @@ router.post('/authenticate', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  // 세션에서 로그인 여부를 제거하여 로그아웃
   req.session.isLoggedIn = false;
   res.redirect('/');
 });
