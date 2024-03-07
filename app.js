@@ -3,6 +3,7 @@ const session = require('express-session');
 const mysql = require('mysql');
 const loginRouter = require('./routes/login');
 const uploadRouter = require('./routes/upload');
+const postRouter = require('./routes/post');
 
 const app = express();
 const port = 3000;
@@ -72,6 +73,7 @@ app.get('/', (req, res) => {
 
 app.use('/login', loginRouter);
 app.use('/upload', uploadRouter);
+app.use('/post', postRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

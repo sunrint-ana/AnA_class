@@ -6,7 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>AnA-class</title>
-        <link href="/public/styles1.css" rel="stylesheet" />
+        <link href="/public/upload.css" rel="stylesheet" />
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,21 +25,25 @@
             </div>
         </nav>
         <div class="container mt-5">
-            <h1>Upload Post</h1>
+            <h1>게시물 작성</h1>
             <form action="/upload/upload" method="POST" enctype="multipart/form-data">
-                <label for="file">Choose a file:</label>
-                <input type="file" id="file" name="file" accept="image/*" required><br>
-        
-                <label for="postContent">Post Content:</label>
-                <textarea id="postContent" name="post_content" required></textarea><br>
-        
-                <label for="postDate">Post Date:</label>
-                <input type="text" id="postDate" name="post_date" placeholder="YYYY-MM-DD HH:MM:SS" required><br>
-        
-                <label for="postTitle">Post Title:</label>
+                <label for="postTitle">제목 : </label>
                 <input type="text" id="postTitle" name="post_title" required><br>
-        
-                <button type="submit">Upload</button>
+
+                <label for="postDate">날짜 : </label>
+                <input type="text" id="postDate" name="post_date" placeholder="YYYY-MM-DD HH:MM:SS" required><br>
+
+                <label for="postContent">내용 : </label>
+                <textarea id="postContent" name="post_content" required></textarea><br>
+
+                <div class="filebox">
+                    <input class="upload-name" value="표지선택" disabled="disabled">
+                  
+                    <label for="file">업로드</label> 
+                    <input type="file" id="file" name="file" accept="image/*" class="upload-hidden" required> 
+                </div>
+                
+                <button type="submit">올리기</button>
             </form>
         </div>
         <footer class="py-5 bg-dark">
@@ -47,7 +51,7 @@
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/public/scripts1.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
         <script>
             document.getElementById('postDate').addEventListener('focus', function () {
                 this.type = 'datetime-local';
@@ -60,6 +64,21 @@
                     this.placeholder = 'YYYY-MM-DD HH:MM:SS';
                 }
             });
+            $(document).ready(function(){
+                var fileTarget = $('.filebox .upload-hidden');
+
+                fileTarget.on('change', function(){  // 값이 변경되면
+                    if(window.FileReader){  // modern browser
+                    var filename = $(this)[0].files[0].name;
+                    } 
+                    else {  // old IE
+                    var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+                    }
+                    
+                    // 추출한 파일명 삽입
+                    $(this).siblings('.upload-name').val(filename);
+                });
+            }); 
         </script>
     </body>
 </html>
