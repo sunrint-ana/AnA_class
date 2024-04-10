@@ -37,8 +37,17 @@ router.post('/upload', upload.single('file'), (req, res) => {
   const filename = req.file.filename;
   const data = fs.readFileSync(filePath);
   const postContent = req.body.post_content;
-  const postDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var fulldate = new Date();
+  const postDate = datefomat(fulldate);
   const postTitle = req.body.post_title;
+
+  function datefomat(fulldate){
+    var year = fulldate.getFullYear();
+    var month = fulldate.getMonth() + 1;
+    var day = fulldate.getDate();
+
+    return year + '-' + month + '-' + day;
+};
 
   const sql = 'INSERT INTO blogPosts (filename, data, post_content, post_date, post_title) VALUES (?, ?, ?, ?, ?)';
   connection.query(sql, [filename, data, postContent, postDate, postTitle], (error, results, fields) => {

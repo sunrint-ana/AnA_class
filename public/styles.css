@@ -10,6 +10,10 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+#myCanvas {
+  display: block;
+}
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -1308,8 +1312,10 @@ progress {
     width: 58.33333333%;
   }
   .col-lg-8 {
-    flex: 0 0 auto;
-    width: 66.66666667%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, auto));
+    gap: 0px 20px;
   }
   .col-lg-9 {
     flex: 0 0 auto;
@@ -1838,6 +1844,10 @@ progress {
   --bs-table-hover-color: #000;
   color: var(--bs-table-color);
   border-color: var(--bs-table-border-color);
+}
+
+#date {
+  font-size: 16px;
 }
 
 .table-secondary {
@@ -4220,6 +4230,8 @@ textarea.form-control-lg {
 }
 
 .card-title {
+  font-size: 32px;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   margin-bottom: var(--bs-card-title-spacer-y);
 }
 
@@ -4291,6 +4303,9 @@ textarea.form-control-lg {
 
 .card-img,
 .card-img-top {
+  height: 300px;
+  object-fit: none;
+  background-repeat: no-repeat;
   border-top-left-radius: var(--bs-card-inner-border-radius);
   border-top-right-radius: var(--bs-card-inner-border-radius);
 }
@@ -4299,6 +4314,13 @@ textarea.form-control-lg {
 .card-img-bottom {
   border-bottom-right-radius: var(--bs-card-inner-border-radius);
   border-bottom-left-radius: var(--bs-card-inner-border-radius);
+}
+
+#card_img{
+  width: 100%;
+}
+#card_row{
+  flex-direction: row;
 }
 
 .card-group > .card {

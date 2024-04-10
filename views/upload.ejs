@@ -11,11 +11,10 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#!">AnA_Class</a>
+                <a class="navbar-brand" href="/"><img src="/public/Group.svg" alt="" style="width: 48px; height: 42px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item" id="loginLink"><a class="nav-link" href="/login">login</a></li>
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
@@ -26,24 +25,24 @@
         </nav>
         <div class="container mt-5">
             <h1>게시물 작성</h1>
+
             <form action="/upload/upload" method="POST" enctype="multipart/form-data">
-                <label for="postTitle">제목 : </label>
+                <label for="postTitle">제목</label><br>
                 <input type="text" id="postTitle" name="post_title" required><br>
 
-                <label for="postDate">날짜 : </label>
+                <label for="postDate">날짜</label><br>
                 <input type="text" id="postDate" name="post_date" placeholder="YYYY-MM-DD HH:MM:SS" required><br>
 
-                <label for="postContent">내용 : </label>
-                <textarea id="postContent" name="post_content" required></textarea><br>
+                <label for="postContent">내용</label><br>
+                <textarea id="postContent" name="post_content" placeholder="내용을 입력하세요" required></textarea><br>
 
                 <div class="filebox">
-                    <input class="upload-name" value="표지선택" disabled="disabled">
-                  
-                    <label for="file">업로드</label> 
+                    <input class="upload-name" value="표지를 선택하세요" disabled="disabled">
+                    <label for="file">업로드</label>
                     <input type="file" id="file" name="file" accept="image/*" class="upload-hidden" required> 
                 </div>
                 
-                <button type="submit">올리기</button>
+                <button type="submit">업로드</button>
             </form>
         </div>
         <footer class="py-5 bg-dark">

@@ -1,9 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 const mysql = require('mysql');
-const loginRouter = require('./routes/login');
 const uploadRouter = require('./routes/upload');
 const postRouter = require('./routes/post');
+const moment = require('moment')
 
 const app = express();
 const port = 3000;
@@ -29,49 +29,34 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use('/public', express.static(__dirname + '/public', { 'extensions': ['html', 'css'] }));
+app.use('/public', express.static(__dirname + '/public', { 'extensions': ['html', 'css', 'js'] }));
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post('/signup', (req, res) => {
-  const { user_id, password, email } = req.body;
-  const newData = {
-          user_id: user_id,
-          password: password,
-          email: email
-      };
-
-  
-      console.log('newData:', newData);
-  
-      connection.query('INSERT INTO userTable SET ?', newData, (error, results, fields) => {
-          if (error) {
-              console.log(error);
-              res.status(500).send('Database error');
-          } else {
-              console.log('New Data added with ID:', results.insertId);
-              res.redirect('/login');
-          }
-      });
-  });
-
 app.get('/', (req, res) => {
-  const isLoggedIn = req.session.isLoggedIn || false;
   const sql = 'SELECT post_title, post_content, post_date, filename FROM blogPosts';
+  const dateFormat = 'YYYY-MM-DD';
+
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error(error);
       res.status(500).render('index.ejs', { error: '데이터를 불러오는 중 오류가 발생했습니다.' });
     } else {
-      res.render('index.ejs', { posts: results[0], isLoggedIn });
+      const formattedData = results.map(row => {
+        return {
+          post_title: row.post_title,
+          post_content: row.post_content,
+          post_date: moment(row.post_date).format(dateFormat),
+          filename: row.filename
+        };
+      });
+
+      res.render('index.ejs', { posts: formattedData});
     }
   });
 });
 
-
-
-app.use('/login', loginRouter);
 app.use('/upload', uploadRouter);
 app.use('/post', postRouter);
 
